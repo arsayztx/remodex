@@ -1,5 +1,5 @@
 // FILE: CodexMobileAppDelegate.swift
-// Purpose: Bridges APNs registration callbacks into the service layer without coupling SwiftUI views to UIApplicationDelegate.
+// Purpose: AppDelegate stub -- APNs registration personal team'de desteklenmedigi icin devre disi.
 // Layer: App
 // Exports: CodexMobileAppDelegate, Notification.Name push-registration helpers
 // Depends on: Foundation, UIKit
@@ -13,7 +13,6 @@ extension Notification.Name {
 }
 
 final class CodexMobileAppDelegate: NSObject, UIApplicationDelegate {
-    // Forwards the APNs token so CodexService can persist and sync it to the paired Mac bridge.
     func application(
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
@@ -21,13 +20,10 @@ final class CodexMobileAppDelegate: NSObject, UIApplicationDelegate {
         NotificationCenter.default.post(
             name: .codexDidRegisterForRemoteNotifications,
             object: nil,
-            userInfo: [
-                "deviceToken": deviceToken,
-            ]
+            userInfo: ["deviceToken": deviceToken]
         )
     }
 
-    // Keeps registration failures observable in debug builds without surfacing noisy UI errors.
     func application(
         _ application: UIApplication,
         didFailToRegisterForRemoteNotificationsWithError error: Error
@@ -35,9 +31,7 @@ final class CodexMobileAppDelegate: NSObject, UIApplicationDelegate {
         NotificationCenter.default.post(
             name: .codexDidFailToRegisterForRemoteNotifications,
             object: nil,
-            userInfo: [
-                "error": error,
-            ]
+            userInfo: ["error": error]
         )
     }
 }
